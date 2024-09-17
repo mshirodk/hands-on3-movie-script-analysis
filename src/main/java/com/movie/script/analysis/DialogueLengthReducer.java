@@ -10,6 +10,14 @@ public class DialogueLengthReducer extends Reducer<Text, IntWritable, Text, IntW
 
     @Override
     public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-
+        int totalWordCount = 0;
+        
+        // Sum all the word counts for this character
+        for (IntWritable val : values) {
+            totalWordCount += val.get();
+        }
+        
+        // Emit the total word count for the character
+        context.write(key, new IntWritable(totalWordCount));
     }
 }
